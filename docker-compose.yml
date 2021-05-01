@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+  node:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - 3000:3000
+    working_dir: /app
+    expose:
+      - '3000'
