@@ -1,0 +1,4 @@
+{
+  "reporter": ["html", "text"],
+  "exclude": ["test/", "src/index.js", "src/util/database.js"]
+}
