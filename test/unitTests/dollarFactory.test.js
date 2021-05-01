@@ -35,6 +35,7 @@ describe('Dollar Suite Tests', () => {
 
     const dollarService = await DollarFactory.createInstance();
     const previousValue = await dollarService.upsert(value, currency);
+    console.log(previousValue);
     expect(previousValue).to.be.null;
 
     const posteriorValue = await dollarService.find(currency);
