@@ -35,10 +35,10 @@ describe('Dollar Suite Tests', () => {
 
     const dollarService = await DollarFactory.createInstance();
     const previousValue = await dollarService.upsert(value, currency);
+    expect(previousValue).to.be.null;
 
     const posteriorValue = await dollarService.find(currency);
 
-    expect(previousValue).to.be.null;
     expect(posteriorValue).to.be.equal(value);
   });
 });
