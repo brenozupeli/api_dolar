@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "prod": "node src/index.js",
-    "test": "NODE_ENV=test npx mocha -w --parallel test/**/*.test.js",
+    "test": "NODE_ENV=test npx mocha --parallel test/e2e/*.test.js",
     "test:cov": "NODE_ENV=test npx nyc npx mocha --exit --parallel test/**/*.test.js"
   },
   "keywords": [],
