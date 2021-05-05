@@ -1,10 +1,13 @@
 'use strict';
 require('dotenv').config();
 
-const { PORT, MONGODB_CONNECTION_STRING } = process.env;
+const { PORT = 3000, MONGODB_CONNECTION_STRING } = process.env;
 
 const express = require('express');
 const Database = require('./util/database');
+
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const DollarFactory = require('./factory/dollarFactory');
 const SalaryFactory = require('./factory/salaryFactory');
@@ -12,10 +15,23 @@ const SalaryFactory = require('./factory/salaryFactory');
 const DollarRouter = require('./routes/dollar');
 const SalaryRouter = require('./routes/salary');
 
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'API de moedas',
+      description: 'API de moedas para consultar a conversão de salários',
+      contact: { name: 'Breno Zupeli' },
+    },
+    servers: ['http://localhost:3000'],
+  },
+  apis: ['src/routes/*.js'],
+};
+
 class Api {
   constructor({ dollarService, salaryService }) {
     this.dollarService = dollarService;
     this.salaryService = salaryService;
+    this.swaggerDocs = swaggerJsDoc(swaggerOptions);
   }
 
   connectDatabase() {
@@ -36,6 +52,8 @@ class Api {
     const salaryRouter = new SalaryRouter({
       salaryService: this.salaryService,
     });
+
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(this.swaggerDocs));
 
     app.use(dollarRouter.getRoutes());
     app.use(salaryRouter.getRoutes());
